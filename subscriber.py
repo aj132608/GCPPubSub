@@ -3,8 +3,11 @@ import time
 
 
 class Subscriber:
-    def __init__(self, project_id, subscriber):
+    def __init__(self, project_id, subscriber, topic_name):
         self._subscriber_obj = pubsub_v1.SubscriberClient()
+        self.project_id = project_id
+        self.subscriber_name = subscriber
+        self.topic_name = topic_name
         self.project = self.get_project(project_id)
         self.subscriber = self.get_subscriber(project_id, subscriber)
 
@@ -34,6 +37,16 @@ class Subscriber:
         return self._subscriber_obj.subscription_path(
                 project_id, subscriber
             )
+
+    def create_subscriber(self, name):
+        subscriber_path = self._subscriber_obj.subscription_path(
+            self.project_id, name
+        )
+        topic_path = self._subscriber_obj.topic_path(
+            self.project_id, self.topic_name
+        )
+
+        self._subscriber_obj.create_subscriber(subscriber_path, topic_path)
 
     @staticmethod
     def callback(message):
