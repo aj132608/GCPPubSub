@@ -7,10 +7,15 @@ class Publisher:
         self.project = self.get_project(project_id)
         self.topic = self.get_topic(project_id, topic_name)
 
-    def publish_message(self, subscriber, message):
+    def publish_message(self, subscriber, message, metadata):
+        import json
+
+        string_metadata = json.dumps(metadata)
+
         self._publisher_obj.publish(self.topic,
                                     message,
-                                    subscription_name=subscriber)
+                                    subscription_name=subscriber,
+                                    metadata=string_metadata)
 
     def create_topic(self, topic_name):
         response = self._publisher_obj.create_topic(topic_name)

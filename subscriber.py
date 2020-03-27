@@ -60,6 +60,8 @@ class Subscriber:
         :return:
         """
         print(f"Received message: {message.data}")
+        metadata_dict = message.attributes
+        print(f"Message metadata: {metadata_dict}")
         message.ack()
 
     def start_server(self):

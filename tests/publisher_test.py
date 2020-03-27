@@ -6,6 +6,11 @@ if __name__ == "__main__":
     topic_name = 'hello-topic'
     subscription_name = 'sub_one'
     message = b'Alex is pretty great'
+    metadata = {
+        "sender": "app",
+        "vehicle_id": "V-1",
+        "changed_val": "True"
+    }
 
     publisher = Publisher(project_id, topic_name)
 
@@ -14,7 +19,7 @@ if __name__ == "__main__":
     print(f"Sending {message} to {subscription_name}\n")
 
     try:
-        publisher.publish_message(subscription_name, message)
+        publisher.publish_message(subscription_name, message, metadata=metadata)
         print("Message successfully sent!\n")
     except Exception as e:
         print("Message was not successfully sent.")
